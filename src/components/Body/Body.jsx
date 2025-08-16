@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useUser } from '@clerk/clerk-react';
 
 function Body() {
-  const [info, setInfo] = useState(null);
-
-  useEffect(() => {
-    // Placeholder for MongoDB fetch
-    // Replace with actual API call
-    fetch('/api/info')
-      .then(res => res.json())
-      .then(data => setInfo(data))
-      .catch(() => setInfo({ name: 'Demo User', email: 'demo@example.com' }));
-  }, []);
-
+  const { user, isLoaded } = useUser();
   return (
     <div
       style={{
@@ -20,7 +11,7 @@ function Body() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%)',
+  background: '#020024',
         margin: 0,
         padding: 0,
         boxSizing: 'border-box',
@@ -33,17 +24,17 @@ function Body() {
           width: '90vw',
           maxWidth: '1200px',
           height: '70vh',
-          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+          boxShadow: '0 0 16px 2px #00f0ff88',
           borderRadius: '24px',
-          background: 'rgba(255,255,255,0.85)',
+          background: 'transparent',
           overflow: 'hidden',
         }}
       >
         {/* Left Section: Info from MongoDB */}
         <div
           style={{
-            flex: 1,
-            background: 'linear-gradient(120deg, #f5f7fa 0%, #c3cfe2 100%)',
+            flex: 3,
+            background: 'linear-gradient(120deg, #39ff14 0%, #00ff99 100%)',
             padding: '2.5rem',
             display: 'flex',
             flexDirection: 'column',
@@ -51,45 +42,71 @@ function Body() {
             alignItems: 'flex-start',
             borderTopLeftRadius: '24px',
             borderBottomLeftRadius: '24px',
-            boxShadow: '2px 0 12px 0 rgba(0,0,0,0.03)',
+            boxShadow: '0 0 48px 12px #39ff14cc, 0 0 96px 24px #39ff1444',
+            borderRight: '3px solid #e0e7ef',
+            minWidth: 0,
           }}
         >
-          <h2 style={{ marginBottom: '2rem', color: '#2d3748', fontWeight: 700, fontSize: '2rem' }}>User Information</h2>
-          {info ? (
-            <div style={{ fontSize: '1.2rem', color: '#374151' }}>
-              <p style={{ marginBottom: '1rem' }}><strong>Name:</strong> {info.name}</p>
-              <p style={{ marginBottom: '1rem' }}><strong>Email:</strong> {info.email}</p>
-              {/* Add more fields as needed */}
+          {isLoaded && user ? (
+            <div style={{ fontSize: '1.2rem', color: '#374151', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.2rem', width: '100%' }}>
+              <img
+                src={user.imageUrl}
+                alt="User profile"
+                style={{ width: 120, height: 120, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 16px 0 rgba(0,0,0,0.10)', marginBottom: 0, marginTop: '0.5rem' }}
+              />
+              <div style={{ width: '100%' }}>
+                <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Name:</strong> {user.fullName || user.firstName || 'N/A'}</p>
+                <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Email:</strong> {user.primaryEmailAddress?.emailAddress || 'N/A'}</p>
+                <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Phone:</strong> {user.primaryPhoneNumber?.phoneNumber || 'N/A'}</p>
+                <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Vehicle Number:</strong> {user.publicMetadata?.vehicleNumber || 'Not set'}</p>
+              </div>
             </div>
           ) : (
-            <p>Loading...</p>
+            <>
+              <h2 style={{ marginBottom: '2rem', color: '#2d3748', fontWeight: 700, fontSize: '2rem' }}>User Information</h2>
+              <div style={{ fontSize: '1.2rem', color: '#374151', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.2rem', width: '100%' }}>
+                <img
+                  src="https://ui-avatars.com/api/?name=Demo+User&background=39ff14&color=222&size=120"
+                  alt="Demo profile"
+                  style={{ width: 120, height: 120, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 2px 16px 0 #39ff1444', marginBottom: 0, marginTop: '0.5rem' }}
+                />
+                <div style={{ width: '100%' }}>
+                  <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Name:</strong> Demo User</p>
+                  <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Email:</strong> demo@example.com</p>
+                  <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Phone:</strong> +91 9876543210</p>
+                  <p style={{ marginBottom: '0.5rem', textAlign: 'left' }}><strong>Vehicle Number:</strong> MH12AB1234</p>
+                </div>
+              </div>
+            </>
           )}
         </div>
 
         {/* Right Section: Two Indicator Bars */}
         <div
           style={{
-            flex: 1,
+            flex: 7,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             gap: '3rem',
-            background: 'linear-gradient(120deg, #f0fdfa 0%, #a7f3d0 100%)',
+            background: 'radial-gradient(circle at center, #90caf9 0%, #1976d2 100%)',
             borderTopRightRadius: '24px',
             borderBottomRightRadius: '24px',
+            minWidth: 0,
+            boxShadow: '12px 24px 48px 8px #1976d2cc, 24px 48px 96px 16px #1976d244',
           }}
         >
           <div style={{ width: '80%', textAlign: 'left' }}>
-            <label style={{ fontWeight: 600, color: '#2563eb', fontSize: '1.1rem' }}>Indicator 1</label>
+            <label style={{ fontWeight: 600, color: '#000', fontSize: '1.1rem' }}>Drowsiness</label>
             <div style={{ background: '#e0e7ef', borderRadius: '12px', height: '32px', width: '100%', marginTop: '0.7rem', boxShadow: '0 2px 8px 0 rgba(0,0,0,0.07)' }}>
-              <div style={{ width: '60%', height: '100%', background: 'linear-gradient(90deg, #4caf50 60%, #81c784 100%)', borderRadius: '12px', transition: 'width 0.5s' }}></div>
+              <div style={{ width: '60%', height: '100%', background: 'linear-gradient(90deg, #ff9800 60%, #ffd54f 100%)', borderRadius: '12px', transition: 'width 0.5s' }}></div>
             </div>
           </div>
           <div style={{ width: '80%', textAlign: 'left' }}>
-            <label style={{ fontWeight: 600, color: '#0ea5e9', fontSize: '1.1rem' }}>Indicator 2</label>
+            <label style={{ fontWeight: 600, color: '#000', fontSize: '1.1rem' }}>Alcoholic</label>
             <div style={{ background: '#e0e7ef', borderRadius: '12px', height: '32px', width: '100%', marginTop: '0.7rem', boxShadow: '0 2px 8px 0 rgba(0,0,0,0.07)' }}>
-              <div style={{ width: '35%', height: '100%', background: 'linear-gradient(90deg, #2196f3 60%, #90caf9 100%)', borderRadius: '12px', transition: 'width 0.5s' }}></div>
+              <div style={{ width: '35%', height: '100%', background: 'linear-gradient(90deg, #ef4444 60%, #f87171 100%)', borderRadius: '12px', transition: 'width 0.5s' }}></div>
             </div>
           </div>
         </div>
