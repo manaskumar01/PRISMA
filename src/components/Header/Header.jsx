@@ -8,7 +8,7 @@ import { UserButton, UserProfile, SignedIn, SignedOut } from '@clerk/clerk-react
 export default function Header() {
     return (
         <header className="shadow sticky z-50 top-0">
-            <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-b-2 border-indigo-600 px-4 lg:px-6 py-2.5 text-white">
+            <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 lg:px-6 py-2.5 text-white">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <Link to="/" className="flex items-center">
                         <span className="nosifer-regular prisma-brand text-3xl font-extrabold tracking-wide italic drop-shadow-lg select-none">

@@ -11,16 +11,21 @@ function Body() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-  background: '#020024',
+        background: '#020024',
         margin: 0,
         padding: 0,
         boxSizing: 'border-box',
+        overflow: 'hidden',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
       }}
     >
       <div
         style={{
           display: 'flex',
-          gap: '3rem',
           width: '90vw',
           maxWidth: '1200px',
           height: '70vh',
@@ -28,6 +33,7 @@ function Body() {
           borderRadius: '24px',
           background: 'transparent',
           overflow: 'hidden',
+          margin: 'auto',
         }}
       >
         {/* Left Section: Info from MongoDB */}
@@ -43,7 +49,6 @@ function Body() {
             borderTopLeftRadius: '24px',
             borderBottomLeftRadius: '24px',
             boxShadow: '0 0 48px 12px #39ff14cc, 0 0 96px 24px #39ff1444',
-            borderRight: '3px solid #e0e7ef',
             minWidth: 0,
           }}
         >
